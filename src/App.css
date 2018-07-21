@@ -1,0 +1,22 @@
+.category-boxes {
+    margin: 25px;
+    width: 175px;
+}
+
+.category-box {
+    margin-top: 25px;
+}
+
+.email-viewer {
+    padding: 25px;
+}
+
+.empty-selection {
+    margin: 20px;
+    padding: 20px;
+    font-size: 1.2em;
+}
+
+.current-mail{
+    background: rgba(0,0,0,0.05);
+}
