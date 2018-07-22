@@ -6,17 +6,17 @@ export default class Mails extends Component {
         super(props);
     }
     render() {
-
         var email_list = this.props.emails.map(function(mail) {
           if(mail.type == this.props.category) {
               return (
-
-                    <MailItem key={mail.id}
-                               currentId = {this.props.currentMailId}
-                               id = {mail.id}
-                               from={mail.from}
-                               subject={mail.subject}
-                               on_click={this.props.onSelectEmail.bind(null, mail.id)} />
+                <MailItem key={mail.id}
+                   currentId = {this.props.currentMailId}
+                   id = {mail.id}
+                   from={mail.from}
+                   subject={mail.subject}
+                   category={mail.type}
+                   on_click={this.props.onSelectEmail.bind(null, mail.id)}
+                   onChangeCategory={this.props.onChangeCategory.bind(this)} />
               );
           }
         }.bind(this));
@@ -27,8 +27,7 @@ export default class Mails extends Component {
               <tr>
                 <th>From</th>
                 <th>Subject</th>
-
-
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>

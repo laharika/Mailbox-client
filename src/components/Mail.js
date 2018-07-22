@@ -6,6 +6,7 @@ export default class Mail extends Component {
     }
 
     render() {
+
         return (
           <div className="mail">
             <dl className="meta dl-horizontal">
