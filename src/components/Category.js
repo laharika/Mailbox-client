@@ -11,6 +11,7 @@ export default class Category extends Component {
         };
     }
 
+    //sets email_id to null after category change
     componentDidUpdate(prevProps) {
         if (this.props.category !== prevProps.category) {
             this.setState({email_id:null});
@@ -46,6 +47,7 @@ export default class Category extends Component {
                        currentMailId = {this.state.email_id}
                        category={this.props.category}
                        onSelectEmail={this.handleSelectEmail}
+                       onReply={this.props.onReply.bind(this)}
                        onChangeCategory={this.props.onChangeCategory.bind(this)}/>
             <div className="email-viewer">
               {selected_email}

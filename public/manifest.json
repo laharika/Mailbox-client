@@ -1,6 +1,6 @@
 {
-  "short_name": "Effy Mail",
-  "name": "Mailbox application",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",

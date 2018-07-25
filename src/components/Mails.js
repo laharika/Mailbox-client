@@ -16,6 +16,7 @@ export default class Mails extends Component {
                    subject={mail.subject}
                    category={mail.type}
                    on_click={this.props.onSelectEmail.bind(null, mail.id)}
+                   onReply={this.props.onReply.bind(this)}
                    onChangeCategory={this.props.onChangeCategory.bind(this)} />
               );
           }
