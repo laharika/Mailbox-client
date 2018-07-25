@@ -7,7 +7,8 @@ export default class Category extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email_id: null
+            email_id: null,
+            refreshStates : 0
         };
     }
 
@@ -21,7 +22,10 @@ export default class Category extends Component {
         }
     }
     handleSelectEmail = (id) => {
-        this.setState({ email_id: id });
+
+        this.setState({ email_id: id,
+            refreshStates : 1
+        });
     }
 
     render() {
@@ -31,7 +35,7 @@ export default class Category extends Component {
           var mail = this.props.mails.filter(function(mail) {
             return mail.id == email_id;
           })[0];
-          selected_email = <Mail id={mail.id}
+          selected_email = <Mail id={this.state.email_id}
                                   from={mail.from}
                                   to={mail.to}
                                   subject={mail.subject}

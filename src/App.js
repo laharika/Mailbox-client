@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {DialogContainer} from 'react-md';
 import CategoryList from './components/CategoryList';
 import Category from './components/Category';
 import './App.css';
@@ -12,6 +11,14 @@ Modal.setAppElement('#root');
 
 let temp_body = '';
 
+let temp_mail = {
+    id :0,
+    to:'',
+    from:'',
+    subject:'',
+    mail_type:'',
+    reply_id:''
+};
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -21,7 +28,7 @@ export default class App extends Component {
             mails: [],
             refreshStates: 0,
             visible: false,
-            replyforid: 0,
+            replymail: [],
             new_body: "Enter Email content here!"
         };
         this.handleSelectCategory = this.handleSelectCategory.bind(this);
@@ -33,6 +40,7 @@ export default class App extends Component {
     }
 
     componentWillMount(){
+
         axios({
             method: 'post',
             url: 'http://localhost:8080/getallmails'
@@ -74,7 +82,6 @@ export default class App extends Component {
                 id: id,
                 mail_type: category_name
             }
-            console.log(payload);
             axios({
                 method: 'post',
                 url: 'http://localhost:8080/changecategory',
@@ -89,7 +96,7 @@ export default class App extends Component {
 
     handleSubmitReply = () => {
         const payload = {
-            id: this.state.replyforid,
+            id: this.state.replymail.id,
             body: this.state.new_body
         }
         axios({
@@ -112,10 +119,9 @@ export default class App extends Component {
         this.setState({  visible: true});
     };
 
-    handleReply = (id) => {
-        console.log(id);
+    handleReply = (mail) => {
         this.setState({
-            replyforid: id
+            replymail: mail
         });
 
         this.show();
@@ -126,8 +132,6 @@ export default class App extends Component {
         this.setState({
             new_body: temp_body
         });
-       // console.log(this.state.new_body);
-
     }
 
     handleSearch = (category, searchword) => {
@@ -141,7 +145,8 @@ export default class App extends Component {
             data: payload
         })
         .then( res => {
-            this.setState({ mails: res.data.data})
+            temp_mail = res.data.data
+            this.setState({ mails: temp_mail})
 
         })
 
@@ -149,15 +154,45 @@ export default class App extends Component {
     render() {
        var submitButton = <button onClick={this.handleSubmitReply}>Submit</button>
        var cancelButton = <button onClick={this.hide}>Cancel</button>
-
-
        return (
         <div className="app row">
-            <CategoryList categories={this.props.categories}
-                         currentSelection = {this.state.currentSelection}
-                         onSelectCategory={this.handleSelectCategory}
-                         />
+            <Modal
+            isOpen={this.state.visible}
+            contentLabel="Minimal Modal Example"
+            style={
+                {
+                    overlay: {
+                        zIndex: 2,
+                        width: '100%'
 
+                    }
+                }
+            }
+            >
+                <table className="reply-form">
+                    <tbody>
+                    <tr>
+                        <td className="reply-form-td"><label htmlFor="label_to"><b>To</b></label></td>
+                        <td className="reply-form-td">{this.state.replymail.from}</td>
+                    </tr>
+                    <tr>
+                        <td className="reply-form-td"><label htmlFor="label_from"><b>From</b></label></td>
+                        <td className="reply-form-td">{this.state.replymail.to}</td>
+                    </tr>
+                    <tr>
+                        <td className="reply-form-td"><label htmlFor="label_subject"><b>Subject</b></label></td>
+                        <td className="reply-form-td">{this.state.replymail.subject}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <textarea cols="100" rows="10" value={this.state.new_body} onChange={this.changeBody} />
+                <div className="reply-form-buttons">{submitButton}{cancelButton}</div>
+            </Modal>
+            <CategoryList categories={this.props.categories}
+                 currentSelection = {this.state.currentSelection}
+                 onSelectCategory={this.handleSelectCategory}
+             />
             <div className="category-box col-md-10">
               <div className="panel panel-default">
                 <div className="panel-body">
@@ -166,23 +201,6 @@ export default class App extends Component {
                         category={this.state.category_name} mails={this.state.mails}
                         onChangeCategory={this.handleChangeCategory}  onReply={this.handleReply} refreshStates = {this.state.refreshStates}
                     />
-
-                    <Modal
-                      isOpen={this.state.visible}
-                      contentLabel="Minimal Modal Example"
-                      width="500px"
-                   >
-                        <label htmlFor="label_to">To</label>
-                        <input type="text" name="text_to" value="to_state" readOnly/>
-                        <label htmlFor="label_from">From</label>
-                        <input type="text" name="text_from" value="from_state" readOnly/>
-                        <label htmlFor="label_subject">Subject</label>
-                        <input type="text" name="text_subject" value="subject_state" readOnly/>
-                        <textarea value={this.state.new_body} onChange={this.changeBody}/>
-                        {submitButton}{cancelButton}
-                   </Modal>
-
-
                 </div>
               </div>
             </div>

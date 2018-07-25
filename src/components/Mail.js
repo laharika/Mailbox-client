@@ -10,21 +10,44 @@ export default class Mail extends Component {
     }
 
     componentWillMount() {
-        console.log(this.props.id);
+
         const payload = {
             id : this.props.id
         }
+
+        // To fetch the corresponding mail thread
         axios({
             method: 'post',
             url: 'http://localhost:8080/getmailbyid',
             data: payload
         })
         .then(res => {
-            console.log(res)
+
             this.setState({
                 body: res.data.data
             });
         })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.id !== prevProps.id) {
+            const payload = {
+                id : this.props.id
+            }
+
+            // To fetch the corresponding mail thread
+            axios({
+                method: 'post',
+                url: 'http://localhost:8080/getmailbyid',
+                data: payload
+            })
+            .then(res => {
+                console.log(res)
+                this.setState({
+                    body: res.data.data
+                });
+            })
+        }
     }
     render() {
 

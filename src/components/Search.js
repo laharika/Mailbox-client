@@ -17,14 +17,14 @@ export default class Search extends Component {
         this.setState({
             searchword: temp_search
         });
-        console.log(this.state.searchword);
+
     }
 
     render() {
         return(
             <div className="search bar">
                 <input type="text" name="search_text" defaultValue="Enter Search word" onChange={this.changeSearchWord} />
-                <button onClick={this.props.onSearch.bind(null, this.props.category,this.state.searchword)}><img className="icons" src={searchIcon}/></button>
+                <button onClick={this.props.onSearch.bind(null, this.props.category,this.state.searchword)}><img className="icons" src={searchIcon} alt=""/></button>
             </div>
         );
     }
