@@ -12,7 +12,10 @@ export default class CategoryList extends Component {
 
         <li className={this.props.currentSelection == category.category_id ? "list-group-item active" : "list-group-item"}
             key={category.category_id}
-            onClick={this.props.onSelectCategory.bind(null, category)}>
+
+            onClick={this.props.onSelectCategory.bind(null, category)}
+
+            >
             {category.category_name}
         </li>
         );

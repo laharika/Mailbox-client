@@ -35,3 +35,16 @@
     top:15px;
 }
 
+.list-group-item:hover {
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+.mail-item:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+}
+
+.mail-item-active {
+    background-color: grey;
+}

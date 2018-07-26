@@ -37,19 +37,21 @@ export default class App extends Component {
         this.handleReply = this.handleReply.bind(this);
         this.changeBody = this.changeBody.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+
     }
 
     componentWillMount(){
-
         axios({
             method: 'post',
             url: 'http://localhost:8080/getallmails'
 
         })
         .then(res => {
+            //console.log("refresh:"+res);
             this.setState({
                 mails: res.data.data
             });
+
         })
     }
 
@@ -62,9 +64,10 @@ export default class App extends Component {
         .then(res => {
 
             this.setState({
-                mails: res.data.data
+                mails: res.data.data,
+                searchword : ''
             });
-
+            console.log(this.state.mails);
         })
     }
 
@@ -75,6 +78,7 @@ export default class App extends Component {
                     category_name: category.category_name,
                     currentSelection: category.category_id
          });
+         this.refresh();
     }
 
     handleChangeCategory = (id,category_name) => {
@@ -88,7 +92,9 @@ export default class App extends Component {
                 data: payload
             })
             .then( res => {
-                this.setState({ refreshStates : !this.state.refreshStates})
+                this.setState({ refreshStates : !this.state.refreshStates}
+
+                )
                 this.hide();
                 this.refresh();
             })
@@ -196,10 +202,10 @@ export default class App extends Component {
             <div className="category-box col-md-10">
               <div className="panel panel-default">
                 <div className="panel-body">
-                    <Search category={this.category_name} onSearch={this.handleSearch}/>
+                    <Search category={this.state.category_name} onSearch={this.handleSearch}/>
                     <Category
                         category={this.state.category_name} mails={this.state.mails}
-                        onChangeCategory={this.handleChangeCategory}  onReply={this.handleReply} refreshStates = {this.state.refreshStates}
+                        onChangeCategory={this.handleChangeCategory} onReply={this.handleReply} refreshStates = {this.state.refreshStates}
                     />
                 </div>
               </div>

@@ -8,15 +8,17 @@ export default class Category extends Component {
         super(props);
         this.state = {
             email_id: null,
-            refreshStates : 0
+            refreshStates : 0,
+            mails: []
         };
     }
 
     //sets email_id to null after category change
     componentDidUpdate(prevProps) {
         if (this.props.category !== prevProps.category) {
-            this.setState({email_id:null});
-          }
+            this.setState({email_id:null
+            });
+        }
         if(this.props.refreshStates !== prevProps.refreshStates) {
             this.setState({email_id:null})
         }
@@ -35,21 +37,20 @@ export default class Category extends Component {
           var mail = this.props.mails.filter(function(mail) {
             return mail.id == email_id;
           })[0];
-          selected_email = <Mail id={this.state.email_id}
+          selected_email = <Mail id={this.props.email_id}
                                   from={mail.from}
                                   to={mail.to}
                                   subject={mail.subject}
                                   body={mail.body}
                                   refreshStates={this.state.refreshStates}/>;
-        } else {
-
-          selected_email = <EmptyMailList text="email"  />;
         }
+
         return (
           <div>
             <Mails emails={this.props.mails}
                        currentMailId = {this.state.email_id}
                        category={this.props.category}
+                       refreshStates={this.state.refreshStates}
                        onSelectEmail={this.handleSelectEmail}
                        onReply={this.props.onReply.bind(this)}
                        onChangeCategory={this.props.onChangeCategory.bind(this)}/>
